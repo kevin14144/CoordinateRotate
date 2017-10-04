@@ -2,8 +2,8 @@
 
 Matrixs::Matrixs()
 {
-    float aarray[4][4]={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
-    memcpy(Matrix, aarray, sizeof(aarray));
-
+    //initial matrix
+    float initial[4][4]={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+    memcpy(Matrix, initial, sizeof(initial));
 }
 

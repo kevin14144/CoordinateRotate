@@ -14,18 +14,19 @@ MainWindow::~MainWindow()
 }
 
 
-#include <math.h>
 void MainWindow::on_pushButton_clicked()
 {
-    double_t th =90*3.14/180;
+    double_t th =90*3.14/180;//Coordinate rotate 90 degree
+
     Matrixs a;
-    float aarray[4][4]= {{1,0,0,0},{0,(float)cos(th),(float)-sin(th),0},{0,(float)sin(th),(float)cos(th),0},{0,0,0,1}};
-    memcpy(a.Matrix, aarray, sizeof(aarray));
+    float rotateMatrix[4][4]= {{1,0,0,0},{0,(float)cos(th),(float)-sin(th),0},{0,(float)sin(th),(float)cos(th),0},{0,0,0,1}};
+    memcpy(a.Matrix, rotateMatrix, sizeof(rotateMatrix));
+
     Matrixs b;
-    float barray[4][4]= {{1,0,0,0},{0,0,0,5},{0,0,0,3},{0,0,0,1}};
-    memcpy(b.Matrix, barray, sizeof(barray));
+    float Position[4][4]= {{1,0,0,0},{0,0,0,5},{0,0,0,3},{0,0,0,1}};
+    memcpy(b.Matrix, Position, sizeof(Position));
 
-
-    Matrixs c;
-    c= a*std::move(b);
+    //Get new postion
+    Matrixs NewPosition;
+    NewPosition= a * std::move(b);
 }
