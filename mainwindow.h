@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "matrixs.h"
+#include "Matrix.h"
 
 namespace Ui {
 class MainWindow;
