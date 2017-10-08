@@ -3,6 +3,12 @@
 
 #include <QMainWindow>
 #include "Matrix.h"
+#include "qdebug.h"
+
+#define _USE_MATH_DEFINES // for C++
+#include <cmath>
+#define RadToDeg 180/M_PI
+#define DegToRad M_PI/180
 
 namespace Ui {
 class MainWindow;

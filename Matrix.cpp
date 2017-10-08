@@ -74,7 +74,6 @@ float* Matrix::GetMatrix()
         for(col = 0;col < colNum; col++)
         {
             dst[row*rowNum+col] = value[row*rowNum+col];
-
         }
     }
     return dst;
@@ -88,6 +87,12 @@ int Matrix::GetRowNum()
 int Matrix::GetColNum()
 {
     return colNum;
+}
+
+
+void Matrix::operator =(Matrix &src)
+{
+    this->SetMatrix(src.GetMatrix(),src.GetRowNum(),src.GetColNum());
 }
 
 Matrix* Matrix::operator +(Matrix&& src)
@@ -127,7 +132,7 @@ float& Matrix::operator [](int index)
     return value[index];
 }
 
-Matrix* Matrix::operator *(Matrix&& src)
+Matrix* Matrix::operator *(Matrix &src)
 {
 
     //Return = this * src
@@ -148,7 +153,7 @@ Matrix* Matrix::operator *(Matrix&& src)
     relativeNum = this->GetColNum();
 
     Matrix* resultAns = new Matrix(ResultRowNum,ResultColNum);
-
+    //Matrix resultAns(ResultRowNum,ResultColNum);
     int i , j, k, tempResultXIndex,tempResultElmentIndex,tempAMatrixIndex;
 
     for(i=0;i<ResultRowNum;i++)//row  3
@@ -168,5 +173,7 @@ Matrix* Matrix::operator *(Matrix&& src)
             }
         }
     }
+
     return resultAns;
 }
+

@@ -17,7 +17,9 @@ public:
     float* GetMatrix();
     int GetRowNum();
     int GetColNum();
-    Matrix *operator *(Matrix&& src);
+    void operator =(Matrix &src);
+    Matrix *operator *(Matrix &src);
+
     Matrix *operator +(Matrix&& src);
     float &operator [](int index);
 
