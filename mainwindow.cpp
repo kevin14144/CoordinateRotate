@@ -13,7 +13,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-#include "math.h"
+
 void MainWindow::on_pushButton_clicked()
 {
     double_t th = 90*DegToRad;//Coordinate rotate 90 degree
@@ -133,6 +133,68 @@ void MainWindow::on_pushButton_clicked()
         for(j =0;j<col;j++)
         {
             debug.space()<<copy[tempX+j];
+        }
+        debug.nospace()<<"]\n";
+    }
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    Matrix currentPos;
+    float Position[4][4]= {
+        {1,0,0,0},
+        {0,0,0,5},
+        {0,0,0,3},
+        {0,0,0,1}
+    };
+    currentPos.SetMatrix(*Position,4,4);
+    Matrix displacement;
+    float dis[4][4]= {
+        {0,0,0,0},
+        {0,0,0,5},
+        {0,0,0,5},
+        {0,0,0,5}
+    };
+    displacement.SetMatrix(*dis,4,4);
+
+    Matrix result;
+    result = currentPos + displacement;
+
+    Matrix result2;
+    result2.SetMatrix(4,4);
+    result2 += currentPos;
+
+
+    int row = result.GetRowNum();
+    int col = result.GetColNum();
+    int j,tempX;
+
+    QDebug debug = qDebug();//no newline when print it.
+    debug << "Add + \n";
+    for(int i =0;i<row;i++)
+    {
+        tempX = i * col;
+        debug.nospace()<<"[";
+        for(j =0;j<col;j++)
+        {
+            debug.space()<<result.operator [](tempX+j);
+            //qDebug("%f ",result.result[tempX+j]);
+        }
+        debug.nospace()<<"]\n";
+    }
+
+
+    debug << "Add +=";
+    row = result2.GetRowNum();
+    col = result2.GetColNum();
+    for(int i =0;i<row;i++)
+    {
+        tempX = i * col;
+        debug.nospace()<<"[";
+        for(j =0;j<col;j++)
+        {
+            debug.space()<<result2.operator [](tempX+j);
+            //qDebug("%f ",result.result[tempX+j]);
         }
         debug.nospace()<<"]\n";
     }

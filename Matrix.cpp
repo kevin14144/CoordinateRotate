@@ -41,9 +41,8 @@ Matrix::Matrix(int rowNum, int colNum)
     }
 }
 
-void Matrix::SetMatrix(const float* src, int rowNum, int colNum)
+void Matrix::SetMatrix(int rowNum, int colNum)
 {
-
     if(rowNum != 0 && colNum != 0)
     {
         if(value != nullptr)
@@ -51,9 +50,28 @@ void Matrix::SetMatrix(const float* src, int rowNum, int colNum)
             delete value;
         }
         value = new float[rowNum * colNum];
+        int col;
+        for(int row = 0;row < rowNum; row++)
+        {
+            for(col = 0;col < colNum; col++)
+            {
+                value[row * colNum + col] = 0;
+            }
+        }
         this->rowNum = rowNum;
         this->colNum = colNum;
+    }
+}
+
+void Matrix::SetMatrix(const float* src, int rowNum, int colNum)
+{
+        SetMatrix(rowNum,colNum);
         int col;
+        if(src == nullptr)
+        {
+            throw "src nullptr";
+        }
+
         for(int row = 0;row < rowNum; row++)
         {
             for(col = 0;col < colNum; col++)
@@ -62,7 +80,7 @@ void Matrix::SetMatrix(const float* src, int rowNum, int colNum)
             }
         }
 
-    }
+
 }
 
 float* Matrix::GetMatrix()
@@ -90,41 +108,30 @@ int Matrix::GetColNum()
 }
 
 
-void Matrix::operator =(Matrix &src)
+Matrix& Matrix::operator =(Matrix &src)
 {
     this->SetMatrix(src.GetMatrix(),src.GetRowNum(),src.GetColNum());
+    return *this;
 }
 
-Matrix* Matrix::operator +(Matrix&& src)
+Matrix& Matrix::operator +(Matrix &src)
 {
     if(this->GetColNum() != src.GetColNum() ||
             this->GetRowNum() != src.GetRowNum())
     {
         throw;
     }
-    if(this == &src) {
+    if(this == &src)
+    {
         throw;
     }
 
-    int ResultRowNum,ResultColNum;
-
-    ResultRowNum = this->GetRowNum();
-    ResultColNum = this->GetColNum();
-
-    Matrix* dst = new Matrix(ResultRowNum,ResultColNum);
-
-    int i , j ,tempXelement,tempElement;
-    for(i=0;i<ResultRowNum;i++)//row
-    {
-        tempXelement = i * ResultColNum;
-        for(j=0;j<ResultColNum;j++)//colum
-        {
-            tempElement = tempXelement + j;
-            dst->value[i] = this->value[tempElement]
-                    + src.value[tempElement];
-        }
-    }
-    return dst;
+    return Add(*this, src);
+}
+Matrix& Matrix::operator +=(Matrix &src)
+{
+    return *this = *this + src;//Add(*this, src);
+    //return this + src;
 }
 
 float& Matrix::operator [](int index)
@@ -177,3 +184,27 @@ Matrix* Matrix::operator *(Matrix &src)
     return resultAns;
 }
 
+
+Matrix& Matrix::Add(Matrix& src,Matrix& src2)
+{
+    int ResultRowNum,ResultColNum;
+
+    ResultRowNum = src.GetRowNum();
+    ResultColNum = src.GetColNum();
+
+    Matrix* dst = new Matrix(ResultRowNum,ResultColNum);
+
+    //N-D Matrix is a kind of 1D vector
+    int i , j ,tempXelement,tempElement;
+    for(i=0;i<ResultRowNum;i++)//row
+    {
+        tempXelement = i * ResultColNum;//Change next row
+        for(j=0;j<ResultColNum;j++)//colum
+        {
+            tempElement = tempXelement + j;//Change next column
+            dst->value[tempElement] = src.value[tempElement]
+                    + src2.value[tempElement];
+        }
+    }
+    return *dst;
+}

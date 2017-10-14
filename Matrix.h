@@ -14,26 +14,22 @@ public:
     ~Matrix();
     Matrix(int rowNum, int colNum);
     void SetMatrix(const float *src, int rowNum, int colNum);
+    void SetMatrix(int rowNum, int colNum);
     float* GetMatrix();
     int GetRowNum();
     int GetColNum();
-    void operator =(Matrix &src);
+    Matrix& operator =(Matrix &src);
     Matrix *operator *(Matrix &src);
-
-    Matrix *operator +(Matrix&& src);
+    Matrix &operator +(Matrix &src);
+    Matrix &operator +=(Matrix &src);
     float &operator [](int index);
-
-
-//    Matrix& operator +=(Matrix& rhs)
-//    {
-//        return *this;
-//    }
 
 private:
 
     float* value = nullptr;
     int rowNum;
     int colNum;
+    Matrix &Add(Matrix& src,Matrix& src2);
 };
 
 #endif // MATRIX_H
